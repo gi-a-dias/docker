@@ -6,7 +6,7 @@ on:
 
 env:
   # Substitua pelo seu nome de usuário e nome do repositório no Docker Hub
-  DOCKER_REPO: julianiminerva/mackdocker
+  DOCKER_REPO: gioalmeidadias/docker-6-7
 
 jobs:
   build_and_push:
