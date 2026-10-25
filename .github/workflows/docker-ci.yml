@@ -1,0 +1,34 @@
+name: Docker CI/CD para Docker Hub
+
+on:
+  push:
+    branches: [ main ] # Dispara o pipeline automaticamente quando houver push na main[cite: 4, 17, 18]
+
+env:
+  # Substitua pelo seu usuário do Docker Hub e o nome do repositório de destino[cite: 17, 18]
+  DOCKER_REPO: gioalmeidadias/docker-6-7
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. Checkout do código
+        uses: actions/checkout@v4[cite: 17, 18]
+
+      - name: 2. Configurar o Docker Buildx
+        uses: docker/setup-buildx-action@v3[cite: 17, 18]
+
+      - name: 3. Login no Docker Hub
+        uses: docker/login-action@v3[cite: 17, 18]
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}[cite: 14, 17, 18]
+
+      - name: 4. Construir e Enviar a Imagem para o Docker Hub
+        uses: docker/build-push-action@v5[cite: 17, 18]
+        with:
+          context: . # Usa o diretório atual onde está o Dockerfile[cite: 17, 18]
+          push: true # Habilita o envio automático para o Docker Hub[cite: 17, 18]
+          tags: |
+            ${{ env.DOCKER_REPO }}:latest[cite: 17, 18]
+            ${{ env.DOCKER_REPO }}:${{ github.sha }}[cite: 17, 18]
